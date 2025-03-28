@@ -1,7 +1,13 @@
 :root {
   --color-primary: #ffcd42;
+  --color-primary-light: rgb(from var(--color-primary) r g b / 0.1);
   --color-primary-darker: #291f04;
   --color-primary-text: #333;
+
+  --gradient-primary: linear-gradient(to right, var(--color-primary), #ff6102);
+  --gradient-underline: linear-gradient(transparent, transparent) no-repeat 0px 0,
+    linear-gradient(transparent, transparent) no-repeat 0 0,
+    var(--gradient-primary) no-repeat 0 calc(100% - 0.5px) / 100% 2px;
 
   /* Syntax Highlight */
   --color-code-background: #f8f8f8;
@@ -24,7 +30,6 @@
 h2 {
   padding-bottom: 0.5rem;
   margin-bottom: 0;
-  border-bottom: 2px solid var(--color-primary);
 }
 
 body {
@@ -45,13 +50,16 @@ a {
   color: black;
   font-weight: 600;
   text-decoration: underline;
-  /* transition: text-decoration-color 0.1s ease; */
-  /* transition: text-decoration-thickness 0.1s ease; */
 }
 
 a:hover {
-  text-decoration-color: var(--color-primary);
-  text-decoration-thickness: 2px;
+  text-decoration: none;
+}
+
+/* Gradient underlines */
+h2,
+a:hover {
+  background: var(--gradient-underline);
 }
 
 footer {
@@ -64,13 +72,14 @@ footer {
   justify-content: space-evenly;
 
   section {
-    padding: 0 2rem;
+    padding: 1rem 2rem;
     width: fit-content;
 
     h2 {
       color: var(--color-primary);
       border: 0;
       margin: 0;
+      background: none;
     }
   }
 
@@ -85,10 +94,6 @@ footer {
     gap: 0.75rem;
 
     li {
-      /* margin: 0;
-      padding: 0;
-      font-size: 1.5rem;
-      */
       a {
         text-decoration: none;
       }
@@ -97,6 +102,19 @@ footer {
 
   p {
     font-size: 0.9rem;
+  }
+}
+
+aside {
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary);
+  border-radius: 0.5rem;
+  box-shadow: 4px 4px 0 var(--color-primary);
+  font-size: 1rem;
+  padding: 1rem;
+
+  p:first-child {
+    margin-top: 0;
   }
 }
 
@@ -122,7 +140,7 @@ pre.highlight {
   background: var(--color-code-background);
   color: var(--color-code-foreground);
   border: 2px solid var(--color-primary-text);
-  box-shadow: 2px 2px 0 var(--color-primary-text);
+  box-shadow: 4px 4px 0 var(--color-primary-text);
   font-size: 14px;
 }
 
@@ -171,24 +189,22 @@ pre.highlight {
   width: fit-content;
 
   img {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
 
   h1 {
     margin: 0;
   }
-
-  &--horizontal {
-    flex-direction: row;
-    margin-bottom: 0;
-  }
 }
-
 
 /*********************** Utilities ***********************/
 
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.m-0 {
+  margin: 0;
 }

@@ -8,14 +8,13 @@ layout: default
 <div class="Logo mx-auto">
   <img src="https://raw.githubusercontent.com/lit-lang/lit/refs/heads/main/assets/icon-square.png" alt="Lit logo">
   <h1>Lit</h1>
-<!-- [Repository](https://github.com/lit-lang/lit) -->
 </div>
 
 Lit is a simple scripting language.
 
 ```rb
 fn factorial_of { |n|
-  if n <= 1 { return 1; }
+  if n <= 1 then return 1
 
   n * factorial_of(n - 1);
 }
@@ -26,6 +25,11 @@ if let n = readln.to_n!() {
   println "Not a valid number"
 }
 ```
+
+I build it for fun while reading [Crafting
+Interpreters](https://craftinginterpreters.com/). This site is more or less my
+*vision* for the language. Nothing is set in stone yet, and not all features are
+implemented.
 
 ## Getting Started
 
@@ -38,6 +42,11 @@ To use Lit, you'll have to build it from source. It is build using
     2. Change into the directory `cd lit`
     3. Build the project `tools/build`. This will create an executable at `bin/lit`
 3. Run a script with `bin/lit hello.lit` or `bin/lit` to enter the REPL.
+
+<aside>
+  <strong>⚠️ WIP</strong>
+  <p>Lit is <em>extremely</em> early-days, so not all features are implemented yet.</p>
+</aside>
 
 ## Syntax
 
@@ -57,7 +66,8 @@ Comments can appear at the end of a line or span multiple lines.
 
 ### Literals
 
-Lit has a few basic literal types: numbers, strings, booleans.
+Lit has a few basic literal types: numbers, strings, booleans, functions,
+arrays, and maps.
 
 #### Numbers
 
@@ -91,25 +101,96 @@ Strings support these escape codes:
 - `\t`: tab
 - Any other character prefixed with `\`: that character
 
-### Booleans
+#### Booleans
+
+In lit only `false` and [errors](#error-handling) are falsey. Everything else is truthy.
 
 ```rb
 true
 false
 ```
 
+#### Arrays
+
+Arrays are ordered lists of values.
+
+```rb
+# Create an array
+[1, 2, 3]
+```
+
+#### Maps
+
+Maps are key-value pairs.
+
+```rb
+# Create a map
+{
+  "name" : "Yukihiro Matsumoto" # comma is optional here
+  "role" : "creator", # but can be used
+}
+
+{x: 0, y: 0} # same as {"x" : 0, "y" : 0}
+```
+
+#### Functions
+
+```rb
+# Function definition
+fn greet { |name| println "Hello, {name}" }
+
+# Function call
+greet("Matz") # outputs "Hello, Matz"
+
+# Named functions **aren't** closures
+let name = "Matz"
+fn greet { println "Hello, {name}" } # error: 'name' is not defined
+
+# Anonymous functions are closures
+let name = "Matz"
+let greet = fn { println "Hello, {name}" } # outputs "Hello, Matz"
+
+# The default block parameter is `it`
+fn greet { println "Hello, {it}" }
+greet("Matz") # outputs "Hello, Matz"
+
+# Functions return the last expression
+fn fun {
+  false
+  "something"
+  1
+}
+fun() # => 1
+
+# you can use `return` to return early
+fn fun { |value|
+  if value {
+    return "truthy"
+  }
+
+  "falsey"
+}
+fun(true)  # => "truthy"
+```
+
+### Variables
+
+- `let` for variables
+- `const` for constants
+- Variable naming style (e.g. kebab-case)
+
 ### Operators
 
 Lit supports a variety of operators for different operations.
 
 ```rb
--1         # negation
-1 + 2      # addition
-1 - 2      # subtraction
-1 * 2      # multiplication
-1 / 2      # division
-1 % 2      # modulus
-1 > 2      # comparison
+-1           # negation
+1 + 2        # addition
+1 - 2        # subtraction
+1 * 2        # multiplication
+1 / 2        # division
+1 % 2        # modulus
+1 > 2        # comparison
 1 < 2
 1 >= 2
 1 <= 2
@@ -118,32 +199,30 @@ Lit supports a variety of operators for different operations.
 
 - Boolean: `and`, `or`, `not` (or symbolic if preferred)
 
-### Variables
-
-- `let` for immutables
-- `mut` for mutables
-- Variable naming style (e.g. kebab-case)
-
-### Functions
-
-- How to define functions (`fn greet { |name| println("Hi #{name}") }`)
-- Implicit return of last expression
-- Using blocks as function bodies
-- `it` as the default block parameter
-
 ### Control Flow
 
 - `if` with `do`
 - Block-style conditionals
-- `if`/`else`, `unless` (if you support it)
-- `while`, `for`, etc (if supported)
+- `if`/`else`,
+- `while`/`until`
 
 ### Blocks & Scoping
 
 - Blocks are expressions
-- `{1 + 2} * 3` and `do` syntax
-- Returning last value
-- Using blocks in method chains
+- The last expression in a block is the return value.
+
+Because of that, you can use blocks to change the order of operations.
+
+```rb
+{1 + 2} * 3
+# => 9
+```
+
+For a single-expression body, you can use the `do` syntax:
+
+```rb
+fn debug do println("DEBUG: " + it)
+```
 
 ### Method Calls / Attribute Access
 

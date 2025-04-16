@@ -24,9 +24,6 @@ class LitLexer < Rouge::RegexLexer
 
     # TODO: handle ! and ? on identifiers
 
-    # TODO: handle modules, custom types
-
-    # custom types defined with `type User {}``
     rule %r/\b(type)(\s+)(\w+)(\s*)({)/ do
       groups Keyword::Declaration, Text::Whitespace, Name::Class, Text::Whitespace, Punctuation
     end
@@ -42,8 +39,7 @@ class LitLexer < Rouge::RegexLexer
 
     rule %r/\b(true|false|nil)\b/, Keyword::Pseudo
 
-    # builtins: println, print, read,readln,
-    rule %r/\b(print|println|read|readln|error|self|it|its)\b/, Name::Builtin
+    rule %r/\b(print|println|open|typeof|readln|error|self|it|its)\b/, Name::Builtin
 
     rule %r/\+|\-|\*|\/|%|=|==|!=|<|>|<=|>=|\|>/, Operator
     rule %r/[\(\)\{\}\[\],;]/, Punctuation

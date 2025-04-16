@@ -9,7 +9,7 @@ layout: default
     {% for post in site.posts %}
       <li>
         <article>
-          <h2><a class="" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h2>
+          <h2><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h2>
           <p>{% if post.description %}{{ post.description }}{% else %}{{ post.excerpt | strip_html }}{% endif %}</p>
           <span>Published <time class="date" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%B %d, %Y' }}</time></span>
         </article>

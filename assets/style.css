@@ -249,6 +249,13 @@ pre.highlight {
   }
 }
 
+.Post {
+}
+.Post-metadata {
+  font-size: 0.8rem;
+  text-align: right;
+}
+
 
 /*********************** Utilities ***********************/
 

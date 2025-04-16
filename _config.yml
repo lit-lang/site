@@ -27,6 +27,8 @@ url: "https://lit-lang.org" # the base hostname & protocol for your site, e.g. h
 twitter_username: matheusrich
 github_username:  matheusrich
 
+permalink: /news/:title
+
 # Build settings
 # theme: lit-jekyll-theme
 plugins:

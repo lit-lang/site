@@ -1,0 +1,24 @@
+---
+layout: default
+---
+
+<article class="Post">
+  <h2>
+    {{ page.title }}
+  </h2>
+
+  <p class="Post-metadata">
+    Published <time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: '%B %d, %Y' }}</time> by <a target="_blank" href="{{ page.author.url }}">{{ page.author.name }}</a>
+  </p>
+
+  {% if page.toc == true %}
+  <details class="mb-4">
+    <summary>Table of Contents</summary>
+    <nav>
+      {% toc %}
+    </nav>
+  </details>
+  {% endif %}
+
+  {{ content }}
+</article>

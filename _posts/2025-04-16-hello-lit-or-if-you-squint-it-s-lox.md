@@ -4,9 +4,6 @@ title: Hello Lit — Or, if you squint, it's Lox
 description: Lit v0.1.0 released
 date: 2025-04-16 15:01 -0300
 slug: hello-lit
-author:
-  name: Matheus Richard
-  url: https://x.com/matheusrich
 ---
 
 [Almost exactly 5 years ago][], I started reading [Crafting Interpreters][] and
@@ -15,14 +12,14 @@ creating my own programming language. It went for a while, I gave it a new name,
 I've decided to release _something_, so here's the [v0.1.0 of Lit][release], a
 safer scripting language _(eventually)_.
 
-### What is Lit?
+## What is Lit?
 
 Lit is a dynamically typed, scripting language that aims to be safer than the
 usual ones. You can check more details on the [main page](/#error-handling). But the gist is that it
 will have a minimalistic type system that, if I do it right, will be basically
 invisible to you, while providing a safer experience.
 
-### What's in v0.1.0?
+## What's in v0.1.0?
 
 Because it was created while reading the book, [Lit v0.1.0][release] is
 basically the Lox language, with a few changes. Whenever possible, I change the
@@ -30,7 +27,7 @@ syntax to what I envisioned for the language, or something close to that. Lit
 will evolve and get more and more different from Lox in the future. Here's a
 list of the main differences now.
 
-#### Features
+### Features
 
 - Arrays are supported
 
@@ -103,11 +100,11 @@ println 1_2_3; # 123
 - A few extra native functions (`typeof`, `readln`, `open`)
 - Minor syntax differences (if, while, function definitions, class definitions).
 
-#### Anti-features
+### Anti-features
 
 No inheritance :)
 
-### The future
+## The future
 
 I'll keep working on Lit and I'll try to make regular releases. I haven't
 decided the frequency yet. I don't have a set roadmap, but I have [several

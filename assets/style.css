@@ -250,6 +250,13 @@ pre.highlight {
 }
 
 .Post {
+  h1 {
+    font-size: 2em;
+    text-align: center;
+  }
+  h2 {
+    background: none;
+  }
 }
 .Post-metadata {
   font-size: 0.8rem;

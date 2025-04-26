@@ -27,6 +27,15 @@ url: "https://lit-lang.org" # the base hostname & protocol for your site, e.g. h
 twitter_username: matheusrich
 github_username:  matheusrich
 
+defaults:
+  -
+    scope:
+      type: "posts"
+    values:
+      author:
+        name: Matheus Richard
+        url: https://x.com/matheusrich
+
 permalink: /news/:title
 
 # Build settings

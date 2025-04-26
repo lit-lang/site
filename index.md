@@ -174,11 +174,11 @@ they are defined in. You can use `let` for immutable bindings and `var` for
 mutable bindings.
 
 ```lit
-let x = 1;
-x = 2; # error: cannot assign to immutable variable
+let x = 1
+x = 2 # error: cannot assign to immutable variable
 
-var y = 1;
-y = 2; # ok
+var y = 1
+y = 2 # ok
 ```
 
 - Variable naming style (e.g. kebab-case)
@@ -250,7 +250,7 @@ type Point { |x, y|
 }
 
 let origin = Point(0, 0)
-println origin.to_s() # outputs "(0, 0)"
+println origin # outputs "(0, 0)"
 ```
 
 #### Multiple Variants

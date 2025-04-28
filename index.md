@@ -342,7 +342,7 @@ methods. Here's a list of the currently supported operators and the methods you
 need to implement in your type to overload them:
 
 | Operator | Method to implement |
-| -- | --- |
+|:-:|:-:|
 | unary - | neg |
 | + | add |
 | - | sub |

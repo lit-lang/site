@@ -60,14 +60,14 @@ Comments can appear at the end of a line or span multiple lines.
 
 ### Literals
 
-Lit has a few basic literal types: numbers, strings, booleans, functions,
-arrays, and maps.
+Lit has a few basic literal types: integers, floats, strings, booleans,
+functions, arrays, and maps.
 
 #### Numbers
 
 ```lit
-1         # all numbers are floats
-1.5
+1         # integer
+1.0       # float
 1_000_000 # underscores are allowed
 0.000_1   # even on the decimal side
 ```
@@ -97,11 +97,12 @@ Strings support these escape codes:
 
 #### Booleans
 
-In lit only `false` and [errors](#error-handling) are falsey. Everything else is truthy.
+In Lit, only `false` and [errors](#error-handling) are falsey. Everything else
+is truthy.
 
 ```lit
-true
-false
+println true && 0 && "" && fn {} && [] && {:} && "Truthy" # "Truthy"
+println false  || "Falsey" # "Falsey"
 ```
 
 #### Arrays
@@ -109,20 +110,37 @@ false
 Arrays are ordered lists of values.
 
 ```lit
-# Create an array
-[1, 2, 3]
+let arr = [1, 2, 3,] # trailing comma is allowed
+
+# You can access elements in an array using the `[]` operator
+arr[0] # => 1
+
+# Use `[]=` to set an element in an array:
+arr[0] = 4
+println arr # => [4, 2, 3]
 ```
 
 #### Maps
 
-Maps are key-value pairs.
+Maps are key-value pairs (separated by a colon), also known as dictionaries or
+hashes in other languages.
 
 ```lit
 # Create a map
-{
-  "name" : "Yukihiro Matsumoto" # comma is optional here
-  "role" : "creator", # but can be used
+let user = {
+  "name" : "Yukihiro Matsumoto",
+  "role" : "creator", # trailing comma is allowed
 }
+
+# Access a value in a map
+user["name"] # => "Yukihiro Matsumoto"
+
+# Set a value in a map
+user["name"] = "Matz"
+println user # => {"name" : "Matz", "role" : "creator"}
+
+# An empty map
+let empty_map = {:}
 
 {x: 0, y: 0} # same as {"x" : 0, "y" : 0}
 ```
@@ -165,6 +183,10 @@ fn fun { |value|
   "falsey"
 }
 fun(true)  # => "truthy"
+
+# you can create anonymous functions:
+
+[1, 2, 3].map(fn { |x| x * 2 }) # => [2, 4, 6]
 ```
 
 ### Variables
@@ -200,6 +222,9 @@ Lit supports a variety of operators for different operations.
 1 <= 2
 1 == 2
 ```
+
+These operators can be overloaded on custom types. See [Operator
+Overloading](#operator-overloading) for more details.
 
 - Boolean: `and`, `or`, `not` (or symbolic if preferred)
 
@@ -308,6 +333,31 @@ match user {
 user.check_password("guess")   # => false
 user._debug()                  # error: _debug is private
 ```
+
+#### Operator Overloading
+
+Lit supports operator overloading for custom types. You can define how
+operators behave for your custom types by implementing the corresponding
+methods. Here's a list of the currently supported operators and the methods you
+need to implement in your type to overload them:
+
+| Operator | Method to implement |
+| -- | --- |
+| unary - | neg |
+| + | add |
+| - | sub |
+| * | mul |
+| / | div |
+| % | mod |
+| == | eq |
+| != | neq |
+| < | lt |
+| <= | lte |
+| > | gt |
+| >= | gte |
+| [] | get |
+| []= | set |
+| stringify (i.e. `println`) | to_s |
 
 ### Modules / Imports
 

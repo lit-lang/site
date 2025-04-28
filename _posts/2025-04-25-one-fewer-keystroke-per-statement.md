@@ -51,10 +51,10 @@ supported operators and the methods you need to implement in your type to
 overload them:
 
 | Operator | Method to implement |
-| --## | --## |
-| unary ## | neg |
+| -- | --- |
+| unary - | neg |
 | + | add |
-| ## | sub |
+| - | sub |
 | * | mul |
 | / | div |
 | % | mod |

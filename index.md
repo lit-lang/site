@@ -8,7 +8,7 @@ Lit is a simple scripting language.
 
 ```lit
 fn factorial_of { |n|
-  if n <= 1 then return 1
+  if n <= 1 do return 1
 
   n * factorial_of(n - 1)
 }

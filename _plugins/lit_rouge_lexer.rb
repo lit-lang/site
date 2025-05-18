@@ -13,7 +13,7 @@ class LitLexer < Rouge::RegexLexer
   end
 
   def self.keywords
-    @keywords ||= Set.new %w[let var if else elsif do then while until loop return match break next and or fn type variant module new try]
+    @keywords ||= Set.new %w[let var if else elsif do then while until loop return match break next and or fn type variant module try import]
   end
 
   state :root do

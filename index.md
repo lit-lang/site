@@ -14,9 +14,9 @@ fn factorial_of { |n|
 }
 
 if let n = readln().to_i!() {
-  println "Factorial of {n} is {factorial_of(n)}"
+  println("Factorial of {n} is {factorial_of(n)}")
 } else {
-  println "Not a valid number"
+  println("Not a valid number")
 }
 ```
 
@@ -101,8 +101,8 @@ In Lit, only `false` and [errors](#error-handling) are falsey. Everything else
 is truthy.
 
 ```lit
-println true && 0 && "" && fn {} && [] && {:} && "Truthy" # "Truthy"
-println false  || "Falsey" # "Falsey"
+println(true && 0 && "" && fn {} && [] && {:} && "Truthy") # "Truthy"
+println(false  || "Falsey") # "Falsey"
 ```
 
 #### Arrays
@@ -117,7 +117,7 @@ arr[0] # => 1
 
 # Use `[]=` to set an element in an array:
 arr[0] = 4
-println arr # => [4, 2, 3]
+println(arr) # => [4, 2, 3]
 ```
 
 #### Maps
@@ -137,7 +137,7 @@ user["name"] # => "Yukihiro Matsumoto"
 
 # Set a value in a map
 user["name"] = "Matz"
-println user # => {"name" : "Matz", "role" : "creator"}
+println(user) # => {"name" : "Matz", "role" : "creator"}
 
 # An empty map
 let empty_map = {:}
@@ -149,21 +149,21 @@ let empty_map = {:}
 
 ```lit
 # Function definition
-fn greet { |name| println "Hello, {name}" }
+fn greet { |name| println("Hello, {name}") }
 
 # Function call
 greet("Matz") # outputs "Hello, Matz"
 
 # Named functions **aren't** closures
 let name = "Matz"
-fn greet { println "Hello, {name}" } # error: 'name' is not defined
+fn greet { println("Hello, {name}") } # error: 'name' is not defined
 
 # Anonymous functions are closures
 let name = "Matz"
-let greet = fn { println "Hello, {name}" } # outputs "Hello, Matz"
+let greet = fn { println("Hello, {name}") } # outputs "Hello, Matz"
 
 # The default block parameter is `it`
-fn greet { println "Hello, {it}" }
+fn greet { println("Hello, {it}") }
 greet("Matz") # outputs "Hello, Matz"
 
 # Functions return the last expression
@@ -275,7 +275,7 @@ type Point { |x, y|
 }
 
 let origin = Point(0, 0)
-println origin # outputs "(0, 0)"
+println(origin) # outputs "(0, 0)"
 ```
 
 #### Multiple Variants
@@ -302,12 +302,12 @@ type Shape {
 }
 
 let s1 = Shape.Circle(5)
-println s1.kind() # outputs "circle"
-println s1.area() # outputs "78.5"
+println(s1.kind()) # outputs "circle"
+println(s1.area()) # outputs "78.5"
 
 let s2 = Shape.Square(3)
-println s2.kind() # outputs "square"
-println s2.area() # outputs "9"
+println(s2.kind()) # outputs "square"
+println(s2.area()) # outputs "9"
 ```
 
 #### Field and Method Visibility
@@ -321,7 +321,7 @@ declaration.
 ```lit
 type User { |name, _password|
   fn check_password do it == _password # please don't use this in production
-  fn _debug { println "user={name}" }
+  fn _debug { println("user={name}") }
 }
 
 let user = User("alice", "secret")

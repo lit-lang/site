@@ -92,7 +92,9 @@ functions, arrays, and maps.
 Strings support these escape codes:
 
 - `\n`: newline
+- `\r`: carriage return
 - `\t`: tab
+- `\e`: escape
 - Any other character prefixed with `\`: that character
 
 #### Booleans

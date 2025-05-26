@@ -14,7 +14,7 @@ fn factorial_of { |n|
 }
 
 if let n = readln().to_i!() {
-  println("Factorial of {n} is {factorial_of(n)}")
+  println("The factorial of {n} is {factorial_of(n)}")
 } else {
   println("Not a valid number")
 }

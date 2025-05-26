@@ -99,12 +99,12 @@ Strings support these escape codes:
 
 #### Booleans
 
-In Lit, only `false` and [errors](#error-handling) are falsey. Everything else
+In Lit, only `nil`, `false` and [errors](#error-handling) are falsey. Everything else
 is truthy.
 
 ```lit
-println(true && 0 && "" && fn {} && [] && {:} && "Truthy") # "Truthy"
-println(false  || "Falsey") # "Falsey"
+println(true and 0 and "" and fn {} and [] and {:} and "Truthy") # "Truthy"
+println(false or "Falsey") # "Falsey"
 ```
 
 #### Arrays
@@ -164,11 +164,14 @@ fn greet { println("Hello, {name}") } # error: 'name' is not defined
 let name = "Matz"
 let greet = fn { println("Hello, {name}") } # outputs "Hello, Matz"
 
-# The default block parameter is `it`
-fn greet { println("Hello, {it}") }
+# single-expression functions can use the `do` syntax
+fn greet do |name| println("Hello, {name}")
+
+# They also support the `it` default parameter:
+fn greet do println("Hello, {it}")
 greet("Matz") # outputs "Hello, Matz"
 
-# Functions return the last expression
+# Blocks return their last expression
 fn fun {
   false
   "something"
@@ -187,8 +190,10 @@ fn fun { |value|
 fun(true)  # => "truthy"
 
 # you can create anonymous functions:
-
 [1, 2, 3].map(fn { |x| x * 2 }) # => [2, 4, 6]
+
+# use the do syntax for single-expression blocks:
+[1, 2, 3].map(fn do it * 2) # => [2, 4, 6]
 ```
 
 ### Variables
@@ -204,8 +209,6 @@ x = 2 # error: cannot assign to immutable variable
 var y = 1
 y = 2 # ok
 ```
-
-- Variable naming style (e.g. kebab-case)
 
 ### Operators
 
@@ -228,20 +231,39 @@ Lit supports a variety of operators for different operations.
 These operators can be overloaded on custom types. See [Operator
 Overloading](#operator-overloading) for more details.
 
-- Boolean: `and`, `or`, `not` (or symbolic if preferred)
+#### Augmented Assignment
 
-### Control Flow
+Lit supports augmented assignment operators for convenience. These operators
+combine an operation with assignment, making code more concise:
 
-- `if` with `do`
-- Block-style conditionals
-- `if`/`else`,
-- `while`/`until`
+```lit
+var n = 5
+n += 2  # same as n = n + 2
+n -= 1  # same as n = n - 1
+n *= 3  # same as n = n * 3
+n /= 2  # same as n = n / 2
+n %= 4  # same as n = n % 4
+```
+
+You can use these with any mutable variable (`var`). Augmented assignments work
+with any type that support the corresponding operator.
+
+#### Boolean Operators
+
+Lit provides the `and` and `or` operators for combining boolean expressions.
+These operators short-circuit.
+
+```lit
+println(true and "yes")   # => "yes"
+println(false and "no")   # => false
+
+println(nil or "default") # => "default"
+println("value" or "alt") # => "value"
+```
 
 ### Blocks & Scoping
 
-- Blocks are expressions
-- The last expression in a block is the return value.
-
+Blocks are expressions. The last expression in a block is the return value.
 Because of that, you can use blocks to change the order of operations.
 
 ```lit
@@ -252,13 +274,75 @@ Because of that, you can use blocks to change the order of operations.
 For a single-expression body, you can use the `do` syntax:
 
 ```lit
-fn debug do println("DEBUG: " + it)
+fn debug do println("DEBUG: {it}")
+debug("Hello, World!") # outputs "DEBUG: Hello, World!"
 ```
 
-### Pattern Matching / Destructuring
+### Control Flow
 
-- Destructuring assignment
-- Match expressions
+#### `if` expressions
+
+Lit uses `if` as an expression, meaning it returns a value. You can use `if`
+with or without `else` and chain multiple conditions with `else if`.
+
+```lit
+let n = 5
+
+let result = if n > 10 {
+  "greater than 10"
+} else if n > 5 {
+  "greater than 5"
+} else {
+  "5 or less"
+}
+
+println(result) # outputs "5 or less"
+```
+
+The last expression in each block is the value returned by that branch. `else`
+is optional; if omitted and no condition matches, the result is `nil`.
+
+You can also use the single-expression `do` syntax for concise conditions:
+
+```lit
+let status = if n % 2 == 0 do "even" else do "odd"
+println(status) # outputs "odd"
+```
+
+#### `match` expressions
+
+#todo
+
+#### `while` / `until` expressions
+
+Lit provides `while` and `until` expressions for looping. Both forms are
+expressions, so they return a value: the last expression evaluated in the
+loop body or the value of `break` if used.
+
+- `while` repeats as long as the condition is truthy.
+- `until` repeats as long as the condition is falsey.
+
+You can use `break` to exit the loop early. `break` can take an optional value, which becomes the value of the loop expression.
+
+```lit
+let i = 0
+let result = while i < 5 {
+  if i == 3 {
+    break "stopped at 3"
+  }
+  i += 1
+}
+println(result) # outputs "stopped at 3"
+
+let j = 0
+until j == 2 {
+  println(j)
+  j += 1
+}
+# outputs:
+# 0
+# 1
+```
 
 ### Custom Types
 
@@ -361,18 +445,34 @@ need to implement in your type to overload them:
 | []= | set |
 | stringify (i.e. `println`) | to_s |
 
-### Modules / Imports
+### Modules (#todo)
 
-- How to organize code across files
+- How to group related types and functions
 
-### Collections & Iteration
+### Imports
+
+You can now use the `import` keyword to import other Lit files. They work
+similar to Ruby's `require_relative`. There's not module system yet, so all the
+files imported this way share the same global scope.
+
+```lit
+import "foo" # imports foo.lit from the same directory
+import "../bar" # imports bar.lit from the parent directory
+import "baz.lit" # adding the `.lit` extension is optional
+```
+
+Error messages include the file name and line number, to help you find the
+error source.
+
+<aside>
+  <strong>⚠️ WIP</strong>
+  <p>This will be improved in the future to support modules and namespaces.</p>
+</aside>
+
+### Collections & Iteration (#todo)
 
 - Implementing iteration for custom types with
 
 ### Error Handling
 
 - How to handle dangerous operations
-
-<div id="table-of-contents">
-  {{ page.content | toc_only }}
-</div>
